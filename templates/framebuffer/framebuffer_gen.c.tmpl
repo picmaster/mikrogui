@@ -1,0 +1,21 @@
+/*
+ * This file was automatically generated from ${disp_conf}
+ * ${guic_info} (${url})
+ * ${timestamp}
+ */
+
+#include "framebuffer.h"
+
+static uint8_t fb_mem[${bytes}];
+
+fb_t fb =
+{
+    .mem = fb_mem,
+    .bytes = ${bytes},
+    .pixels = ${pixels},
+    .width = ${width},
+    .height = ${height},
+    .bpp = ${bpp},
+    .pixel_format = ${pixfmt}
+};
+
