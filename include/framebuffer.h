@@ -11,9 +11,10 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
-
 #include "framebuffer_gen.h"
+#include "common.h"
+
+#include <stdint.h>
 
 typedef enum
 {
@@ -25,7 +26,7 @@ typedef enum
     PIXFMT_RGB332,
     PIXFMT_RGB565,
     PIXFMT_MAX
-} pixel_format_t;
+} mg_pixel_format_t;
 
 typedef struct
 {
@@ -34,17 +35,23 @@ typedef struct
     uint32_t pixels;
     uint16_t width;
     uint16_t height;
-    uint8_t bpp;
+    //uint8_t bpp; // FIXME: We probably don't need this in runtime
     uint8_t pixel_format;
-} fb_t;
+} mg_fb_t;
 
-void framebuffer_clear(const pixel_t c);
-void framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const pixel_t c);
-void framebuffer_draw_line(const uint16_t x1, const uint16_t y1,
-    const uint16_t x2, const uint16_t y2, const pixel_t c);
-void framebuffer_draw_rect(const uint16_t x1, const uint16_t y1,
-    const uint16_t x2, const uint16_t y2, const pixel_t c);
-void framebuffer_flush(void);
+// Fill the virtual framebuffer with black color
+void mg_framebuffer_clear(void);
+
+void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y,
+    const mg_pixel_t c);
+
+/*void mg_framebuffer_draw_line(const uint16_t x1, const uint16_t y1,
+    const uint16_t x2, const uint16_t y2, const pixel_t c);*/
+
+void mg_framebuffer_draw_rect(const mg_geometry_t* rect, const mg_pixel_t c);
+
+// Write the virtual framebuffer to the platform display
+void mg_framebuffer_flush(void);
 
 #ifdef __cplusplus
 }

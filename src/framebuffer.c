@@ -6,47 +6,66 @@
 
 #include "framebuffer.h"
 
-extern fb_t fb;
+#include <string.h>
 
-void framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const pixel_t c)
+extern mg_fb_t fb;
+extern void mg_platform_fb_flush(mg_fb_t* fb);
+
+void mg_framebuffer_clear(void)
 {
+    memset(fb.mem, 0, fb.bytes);
+}
+
+void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const mg_pixel_t c)
+{
+    mg_pixel_t* p = (mg_pixel_t*)fb.mem;
+
     if (x > fb.width || y > fb.height)
         return;
 
     switch (fb.pixel_format)
     {
+        case PIXFMT_1BPP_MONO:
+        case PIXFMT_2BPP_MONO:
         case PIXFMT_4BPP_MONO:
-            break;
-
         case PIXFMT_8BPP_MONO:
         case PIXFMT_RGB332:
         default:
-            *((pixel_t*)fb.mem + fb.width * y + x) = c;
+            p[fb.width * y + x] = c & MG_PIXEL_MASK;
             break;
     }
 }
 
-void framebuffer_clear(const pixel_t c)
-{
-    int x, y;
-
-    for (y = 0; y < fb.height; y++)
-        for (x = 0; x < fb.width; x++)
-            framebuffer_draw_pixel(x, y, c);
-}
-
-void framebuffer_draw_line(const uint16_t x1, const uint16_t y1,
+/*void mg_framebuffer_draw_line(const uint16_t x1, const uint16_t y1,
     const uint16_t x2, const uint16_t y2, const pixel_t c)
 {
+}*/
+
+void mg_framebuffer_draw_rect(const mg_geometry_t* rect, const mg_pixel_t c)
+{
+    int x, xx, y, yy;
+
+    if (!rect)
+        return;
+
+    xx = rect->x + rect->w;
+    yy = rect->y + rect->h;
+
+    for (x = rect->x; x <= xx; x++)
+    {
+        mg_framebuffer_draw_pixel(x, rect->y, c);
+        mg_framebuffer_draw_pixel(x, yy, c);
+    }
+
+    for (y = rect->y; y <= yy; y++)
+    {
+        mg_framebuffer_draw_pixel(rect->x, y, c);
+        mg_framebuffer_draw_pixel(xx, y, c);
+    }
 }
 
-void framebuffer_draw_rect(const uint16_t x1, const uint16_t y1,
-    const uint16_t x2, const uint16_t y2, const pixel_t c)
+void mg_framebuffer_flush(void)
 {
-}
-
-void framebuffer_flush(void)
-{
-    // Draw to the platform-specific backend
+    mg_platform_fb_flush(&fb);
 }
 
