@@ -11,61 +11,62 @@
 extern "C" {
 #endif
 
+#include "common.h"
+#include "input.h"
+#include "framebuffer_gen.h" // TODO: Move mg_pixel_t type to another file to avoid this inclusion
+#include <stdint.h>
+
 typedef enum
 {
-    WIDGET_TYPE_INVALID = 0,
-    WIDGET_TYPE_BUTTON,
-    WIDGET_TYPE_TEXT,
-    WIDGET_TYPE_PROGRESSBAR,
-    WIDGET_TYPE_IMAGE,
-    WIDGET_TYPE_MAX
-} widget_type_t;
+    MG_WIDGET_TYPE_INVALID = 0,
+    //MG_WIDGET_TYPE_BUTTON,
+    MG_WIDGET_TYPE_FORM,
+    MG_WIDGET_TYPE_IMAGE,
+    //MG_WIDGET_TYPE_PROGRESSBAR,
+    MG_WIDGET_TYPE_RECT,
+    MG_WIDGET_TYPE_TEXT,
+    MG_WIDGET_TYPE_MAX
+} mg_widget_type_t;
 
 typedef struct
 {
-    uint16_t x;
-    uint16_t y;
-    uint16_t w;
-    uint16_t h;
-} geometry_t;
-
-struct widget_s
-{
-    widget_s* parent;
-    uint8_t id;
     uint8_t type;
-    geometry_t geometry;
-    widget_s* children;
-};
-
-typedef struct widget_s widget_t;
+    mg_geometry_t geometry;
+    void** children;
+} mg_widget_t;
 
 typedef struct
 {
-    uint8_t len;
-    uint8_t* str;
-} string_t;
+    mg_widget_t widget;
+    mg_pixel_t color;
+} mg_rect_t;
 
-typedef struct 
+typedef struct
 {
-    widget_t base;
-    string_t text;
+    mg_widget_t widget;
+    mg_string_t str;
+} mg_text_t;
+
+/*typedef struct 
+{
+    mg_widget_t base;
+    mg_string_t text;
     uint8_t font_id;
-} button_t;
+} mg_button_t;
+*/
 
 typedef struct
 {
-    widget_t widget;
-    string_t text;
-    uint8_t font_id;
-} image_t;
+    mg_widget_t widget;
 
-typedef struct
-{
-    widget_t widget;
-} form_t;
+    void (*enter)(void);
+    void (*leave)(void);
+    void (*handle_input)(mg_event_t e);
+} mg_form_t;
 
-void widget_draw(widget_t* w);
+void mg_widget_draw(mg_widget_t* widget);
+mg_form_t* mg_widget_get_current_form(void);
+void mg_widget_switch_form(mg_form_t* new_form);
 
 #ifdef __cplusplus
 }
