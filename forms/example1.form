@@ -1,0 +1,32 @@
+{
+    "form":
+    {
+        "widgets":
+        [
+            {
+                "type": "image",
+                "geometry": {"x": 0, "y": 0, "w": 320, "h": 240},
+                "path": "mikrogui_bitmap"
+            },
+            {
+                "type": "rect",
+                "geometry": {"x": 1, "y": 1, "w": 318, "h": 238},
+                "color": 255
+            },
+            {
+                "type": "text",
+                "geometry": {"x": 10, "y": 10, "w": 320, "h": 16},
+                "string": "Hello mikrogui!",
+                "font": 0
+            }
+        ],
+
+        "event_handlers":
+        [
+            "enter",
+            "leave",
+            "handle_input"
+        ]
+    }
+}
+

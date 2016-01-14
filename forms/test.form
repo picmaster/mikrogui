@@ -1,0 +1,63 @@
+{
+    "form":
+    {
+        "widgets":
+        [
+            {
+                "type": "image",
+                "geometry": {"x": 0, "y": 0, "w": 32, "h": 32},
+                "path": "bitmap1"
+            },
+            {
+                "type": "image",
+                "geometry": {"x": 32, "y": 0, "w": 32, "h": 32},
+                "path": "bitmap2"
+            },
+            {
+                "type": "image",
+                "geometry": {"x": 48, "y": 0, "w": 32, "h": 32},
+                "path": "bitmap3"
+            },
+            {
+                "type": "rect",
+                "geometry": {"x": 0, "y": 33, "w": 320, "h": 5},
+                "color": 63
+            },
+            {
+                "type": "rect",
+                "geometry": {"x": 0, "y": 43, "w": 320, "h": 5},
+                "color": 127
+            },
+            {
+                "type": "rect",
+                "geometry": {"x": 0, "y": 53, "w": 320, "h": 5},
+                "color": 255
+            },
+            {
+                "type": "text",
+                "geometry": {"x": 10, "y": 63, "w": 320, "h": 16},
+                "string": "Line 1",
+                "font": 0
+            },
+            {
+                "type": "text",
+                "geometry": {"x": 10, "y": 83, "w": 320, "h": 16},
+                "string": "Line 2",
+                "font": 0
+            },
+            {
+                "type": "text",
+                "geometry": {"x": 10, "y": 103, "w": 320, "h": 16},
+                "string": "Line 3",
+                "font": 0
+            }
+        ],
+        "event_handlers":
+        [
+            "enter",
+            "leave",
+            "handle_input"
+        ]
+    }
+}
+

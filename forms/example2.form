@@ -1,0 +1,24 @@
+{
+    "form":
+    {
+        "widgets":
+        [
+            {
+                "type": "image",
+                "geometry": {"x": 0, "y": 0, "w": 64, "h": 128},
+                "path": "main_screenBitmap"
+            },
+            {
+                "type": "rect",
+                "geometry": {"x": 0, "y": 0, "w": 1, "h": 32},
+                "color": 7
+            }
+        ],
+
+        "event_handlers":
+        [
+            "handle_input"
+        ]
+    }
+}
+
