@@ -13,7 +13,8 @@
 extern "C" {
 #endif
 
-#include "resources_gen.h"
+// FIXME: Implement automatic resource generation
+//#include "resources_gen.h"
 
 #include <stdint.h>
 

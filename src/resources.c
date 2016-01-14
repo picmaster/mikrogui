@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 // FIXME: Use the bin-strings from resource_data.h
-static uint8_t string1[] =
+/*static uint8_t string1[] =
 {
     0x01, 0x02, 0x03, 0x04
 };
@@ -56,5 +56,4 @@ resource_t get_resource(resource_id_t id)
     if ((id > RES_ID_INVALID) && (id < RES_ID_MAX))
         return resources[id];
     else return resources[RES_ID_INVALID];
-}
-
+}*/

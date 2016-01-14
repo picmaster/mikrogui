@@ -11,6 +11,7 @@
 extern "C" {
 #endif
 
+#include "image.h"
 #include "rect.h"
 
 void mikrogui_init(void);
