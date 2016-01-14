@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2016 Nikolay Dimitrov <picmaster@mail.bg>
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 #include "text.h"
 #include "image.h"
 #include "rect.h"
