@@ -7,6 +7,7 @@
 #include "widget.h"
 #include "image.h"
 #include "rect.h"
+#include "text.h"
 #include "framebuffer.h"
 #include <stdio.h>
 
@@ -39,6 +40,13 @@ void mg_widget_draw(mg_widget_t* widget)
         {
             mg_rect_draw((mg_rect_t*)widget);
             break;
+        }
+
+        case MG_WIDGET_TYPE_TEXT:
+        {
+            mg_text_draw((mg_text_t*)widget);
+            break;
+        }
 
         default:
             break;

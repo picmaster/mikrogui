@@ -17,6 +17,7 @@ extern "C" {
 #include "input.h"
 #include "rect.h"
 #include "resources.h"
+#include "text.h"
 #include "widget.h"
 
 void mg_init(void);

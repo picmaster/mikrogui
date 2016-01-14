@@ -15,7 +15,7 @@ URL = "https://github.com/picmaster/mikrogui"
 DISPLAY = {"w": -1, "h": -1}
 
 # Counters for object instance IDs
-obj_ids = {"image": -1, "rect": -1}
+obj_ids = {"image": -1, "rect": -1, "text": -1}
 
 def timestamp():
     return datetime.now().strftime("%d.%B.%Y %H:%M:%S")
@@ -27,6 +27,7 @@ def get_next_object_id(obj_type):
 def reset_object_ids():
     obj_ids["image"] = 0
     obj_ids["rect"] = 0
+    obj_ids["text"] = 0
 
 def fill_text_template(tmpl, params):
     t = string.Template(tmpl)
@@ -38,7 +39,6 @@ def fill_template(tmpl, code, params):
 
     print "Writing generated code: %s" % code
     open(code, "w").write(t.safe_substitute(params))
-    #open(code, "w").write(t.substitute(params))
 
 def gen_framebuffer_code(args):
     global DISPLAY
@@ -70,7 +70,7 @@ def gen_framebuffer_code(args):
 
     pixmask = "%s" % hex(pow(2, bpp) - 1)
 
-    params = {"disp_conf": "%s.conf" % display_name, "guic_info": "guic.py v%s" % VERSION, "timestamp": timestamp()}
+    params = {"disp_conf": "%s.conf" % display_name, "guic_info": "guic.py v%s (%s)" % VERSION, "timestamp": timestamp(), URL}
     params["bytes"] = bytes
     params["pixels"] = pixels
     params["width"] = w
@@ -85,7 +85,6 @@ def gen_framebuffer_code(args):
     fill_template("templates/framebuffer/framebuffer_gen.h.tmpl", "include/framebuffer_gen.h", params)
 
 def gen_image_instance(form_name, image):
-    #print "image: %s" % image
     t = open("templates/form/image_def.tmpl").read()
     p = {"form": form_name, "id": get_next_object_id("image")}
     p["x"] = image["geometry"]["x"]
@@ -103,6 +102,17 @@ def gen_rect_instance(form_name, rect):
     p["w"] = rect["geometry"]["w"]
     p["h"] = rect["geometry"]["h"]
     p["color"] = rect["color"]
+    return fill_text_template(t, p)
+
+def gen_text_instance(form_name, text):
+    t = open("templates/form/text_def.tmpl").read()
+    p = {"form": form_name, "id": get_next_object_id("text")}
+    p["x"] = text["geometry"]["x"]
+    p["y"] = text["geometry"]["y"]
+    p["w"] = text["geometry"]["w"]
+    p["h"] = text["geometry"]["h"]
+    p["string"] = text["string"]
+    p["font"] = text["font"]
     return fill_text_template(t, p)
 
 def gen_widget_array(form_name, widgets):
@@ -132,10 +142,7 @@ def gen_forms_code(args):
         print "\nReading GUI form: %s" % form_conf
         form = json.load(open(form_conf))["form"]
 
-        params = dict()
-        params["form_conf"] = form_conf
-        params["guic_info"] = "guic.py v%s" % VERSION
-        params["timestamp"] = timestamp()
+        params = {"form_conf": form_conf, "guic_info": "guic.py v%s" % VERSION, "timestamp": timestamp()}
         params["form_name"] = form_name
         params["form_x"] = 0
         params["form_y"] = 0
@@ -165,19 +172,20 @@ def gen_forms_code(args):
 
         image_defs = ""
         rect_defs = ""
-        image_decls = ""
-        rect_decls = ""
+        text_defs = ""
         if "widgets" in form:
             widgets = form["widgets"]
             for widget in widgets:
                 if widget["type"] == "image":
                     image_defs += gen_image_instance(form_name, widget)
-                    #image_decls += 
                 elif widget["type"] == "rect":
                     rect_defs += gen_rect_instance(form_name, widget)
+                elif widget["type"] == "text":
+                    text_defs += gen_text_instance(form_name, widget)
 
         params["image_defs"] = image_defs
         params["rect_defs"] = rect_defs
+        params["text_defs"] = text_defs
         params["widget_array"] = gen_widget_array(form_name, widgets)
 
         t = open("templates/form/form_children.tmpl").read()
