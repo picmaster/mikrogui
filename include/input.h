@@ -11,30 +11,34 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+
 enum
 {
-    EVENT_TYPE_INVALID = 0,
-    EVENT_TYPE_BUTTON_PRESS,
-    EVENT_TYPE_BUTTON_RELEASE,
-    EVENT_TYPE_TOUCH_DOWN,
-    EVENT_TYPE_TOUCH_UP,
+    EVT_TYPE_INVALID = 0,
+    EVT_TYPE_BUTTON_PRESS,
+    EVT_TYPE_BUTTON_RELEASE,
+    EVT_TYPE_TOUCH_DOWN,
+    EVT_TYPE_TOUCH_UP,
+    EVT_TYPE_MAX
 };
 
 // FIXME: This should be auto-generated from the forms' specs
 enum
 {
-    EVENT_ID_INVALID = 0,
-    EVENT_ID_BUTTON1,
-    EVENT_ID_BUTTON2,
-    EVENT_ID_BUTTON3,
-    EVENT_ID_BUTTON4,
+    EVT_ID_INVALID = 0,
+    EVT_ID_BUTTON1,
+    EVT_ID_BUTTON2,
+    EVT_ID_BUTTON3,
+    EVT_ID_BUTTON4,
+    EVT_ID_MAX
 };
 
 typedef struct
 {
     uint16_t x;
     uint16_t y;
-} touch_data_t;
+} mg_touch_data_t;
 
 typedef struct
 {
@@ -42,11 +46,11 @@ typedef struct
     union
     {
         uint8_t button_id;
-        touch_data_t touch;
+        mg_touch_data_t touch;
     } data;
-} event_t;
+} mg_event_t;
 
-void input_handle_event(event_t e);
+void mg_input_event(mg_event_t e);
 
 #ifdef __cplusplus
 }

@@ -5,9 +5,15 @@
  */
 
 #include "input.h"
+#include "widget.h"
+#include <stdio.h>
 
-void input_handle_event(event_t e)
+// Deliver events to mikrogui
+void mg_input_event(mg_event_t e)
 {
-    // Deliver events to mikrogui
-}
+    mg_form_t* form = NULL;
 
+    form = mg_widget_get_current_form();
+    if (form)
+        form->handle_input(e);
+}
