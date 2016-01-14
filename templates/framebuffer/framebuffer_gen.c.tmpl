@@ -6,16 +6,14 @@
 
 #include "framebuffer.h"
 
-static uint8_t fb_mem[${bytes}];
+static mg_pixel_t fb_mem[${bytes}];
 
-fb_t fb =
+mg_fb_t fb =
 {
     .mem = fb_mem,
     .bytes = ${bytes},
     .pixels = ${pixels},
     .width = ${width},
     .height = ${height},
-    .bpp = ${bpp},
     .pixel_format = ${pixfmt}
 };
-

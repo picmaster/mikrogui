@@ -1,0 +1,33 @@
+/*
+ * This file was automatically generated from ${form_conf}
+ * ${guic_info}
+ * ${timestamp}
+ */
+
+#include "widget.h"
+#include "image.h"
+#include "resources.h"
+#include <stdio.h>
+
+${form_event_prototypes}
+${input_event_prototypes}
+${image_defs}
+${rect_defs}
+${widget_array}
+
+mg_form_t ${form_name} =
+{
+    .widget =
+    {
+        .type = MG_WIDGET_TYPE_FORM,
+        .geometry =
+        {
+            .x = ${form_x},
+            .y = ${form_y},
+            .w = ${form_w},
+            .h = ${form_h}
+        },
+${children}
+    },
+${handlers_def}
+};

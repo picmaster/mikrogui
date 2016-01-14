@@ -1,0 +1,20 @@
+mg_image_t ${form}_image${id} =
+{
+    .widget =
+    {
+        .type = MG_WIDGET_TYPE_IMAGE,
+        .geometry =
+        {
+            .x = ${x},
+            .y = ${y},
+            .w = ${w},
+            .h = ${h}
+        }
+    },
+    .pixmap =
+    {
+        .mem = (void*)${pixmap_resource},
+        .w = ${w},
+        .h = ${h}
+    }
+};
