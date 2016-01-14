@@ -20,6 +20,9 @@ obj_ids = {"image": -1, "rect": -1, "text": -1}
 def timestamp():
     return datetime.now().strftime("%d.%B.%Y %H:%M:%S")
 
+def guic_info():
+    return "guic.py v%s (%s)" % (VERSION, URL)
+
 def get_next_object_id(obj_type):
     obj_ids[obj_type] += 1
     return obj_ids[obj_type]
@@ -40,10 +43,9 @@ def fill_template(tmpl, code, params):
     print "Writing generated code: %s" % code
     open(code, "w").write(t.safe_substitute(params))
 
-def gen_framebuffer_code(args):
+def gen_framebuffer_code(display_name):
     global DISPLAY
 
-    display_name = args[1]
     display_conf = "configs/display/%s.conf" % display_name
     print "Reading display configuration: %s" % display_conf
     display = json.load(open(display_conf))["display"]
@@ -70,7 +72,7 @@ def gen_framebuffer_code(args):
 
     pixmask = "%s" % hex(pow(2, bpp) - 1)
 
-    params = {"disp_conf": "%s.conf" % display_name, "guic_info": "guic.py v%s (%s)" % VERSION, "timestamp": timestamp(), URL}
+    params = {"disp_conf": "%s.conf" % display_name, "guic_info": guic_info(), "timestamp": timestamp()}
     params["bytes"] = bytes
     params["pixels"] = pixels
     params["width"] = w
@@ -79,7 +81,7 @@ def gen_framebuffer_code(args):
     params["pixfmt"] = pixfmt
     fill_template("templates/framebuffer/framebuffer_gen.c.tmpl", "src/framebuffer_gen.c", params)
 
-    params = {"disp_conf": "%s.conf" % display_name, "guic_info": "guic.py v%s" % VERSION, "timestamp": timestamp()}
+    params = {"disp_conf": "%s.conf" % display_name, "guic_info": guic_info(), "timestamp": timestamp()}
     params["type"] = pixtype
     params["mask"] = pixmask
     fill_template("templates/framebuffer/framebuffer_gen.h.tmpl", "include/framebuffer_gen.h", params)
@@ -142,7 +144,7 @@ def gen_forms_code(args):
         print "\nReading GUI form: %s" % form_conf
         form = json.load(open(form_conf))["form"]
 
-        params = {"form_conf": form_conf, "guic_info": "guic.py v%s" % VERSION, "timestamp": timestamp()}
+        params = {"form_conf": form_conf, "guic_info": guic_info(), "timestamp": timestamp()}
         params["form_name"] = form_name
         params["form_x"] = 0
         params["form_y"] = 0
@@ -194,8 +196,8 @@ def gen_forms_code(args):
         fill_template("templates/form/form_{name}_gen.c.tmpl", "src/form_%s_gen.c" % form_name, params)
 
 def main(args):
-    print "guic.py v%s\n" % VERSION
-    gen_framebuffer_code(args)
+    print "%s\n" % guic_info()
+    gen_framebuffer_code(args[1])
     gen_forms_code(args)
     return
 
