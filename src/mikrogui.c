@@ -34,5 +34,4 @@ void mg_run(void)
     mikrogui_run();
 
     return 0;
-}
-
+}*/
