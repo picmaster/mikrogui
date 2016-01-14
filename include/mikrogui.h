@@ -11,6 +11,8 @@
 extern "C" {
 #endif
 
+#include "rect.h"
+
 void mikrogui_init(void);
 
 #ifdef __cplusplus
@@ -18,4 +20,3 @@ void mikrogui_init(void);
 #endif
 
 #endif // MIKROGUI_H
-

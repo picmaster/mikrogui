@@ -6,12 +6,13 @@
 
 #include "widget.h"
 #include "image.h"
+#include "rect.h"
 #include "framebuffer.h"
 #include <stdio.h>
 
 static mg_form_t* current_form = NULL;
 
-// Don't call this from multithreaded code, as nest-limiting won't work
+// Nest-limiting won't work called from multithreaded code
 void mg_widget_draw(mg_widget_t* widget)
 {
     const int max_nest_level = 4;
@@ -25,19 +26,18 @@ void mg_widget_draw(mg_widget_t* widget)
     // Draw either the widget or its children
     switch (widget->type)
     {
-        case MG_WIDGET_TYPE_RECT:
-        {
-            mg_framebuffer_draw_rect(&widget->geometry, ((mg_rect_t*)widget)->color);
+        case MG_WIDGET_TYPE_FORM:
+            for (child = (mg_widget_t**)widget->children; *child; child++)
+                mg_widget_draw(*child);
             break;
-        }
 
         case MG_WIDGET_TYPE_IMAGE:
             mg_image_draw((mg_image_t*)widget);
             break;
 
-        case MG_WIDGET_TYPE_FORM:
-            for (child = (mg_widget_t**)widget->children; *child; child++)
-                mg_widget_draw(*child);
+        case MG_WIDGET_TYPE_RECT:
+        {
+            mg_rect_draw((mg_rect_t*)widget);
             break;
 
         default:

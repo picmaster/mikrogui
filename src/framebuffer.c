@@ -41,29 +41,6 @@ void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const mg_pixe
 {
 }*/
 
-void mg_framebuffer_draw_rect(const mg_geometry_t* rect, const mg_pixel_t c)
-{
-    int x, xx, y, yy;
-
-    if (!rect)
-        return;
-
-    xx = rect->x + rect->w;
-    yy = rect->y + rect->h;
-
-    for (x = rect->x; x <= xx; x++)
-    {
-        mg_framebuffer_draw_pixel(x, rect->y, c);
-        mg_framebuffer_draw_pixel(x, yy, c);
-    }
-
-    for (y = rect->y; y <= yy; y++)
-    {
-        mg_framebuffer_draw_pixel(rect->x, y, c);
-        mg_framebuffer_draw_pixel(xx, y, c);
-    }
-}
-
 void mg_framebuffer_flush(void)
 {
     mg_platform_fb_flush(&fb);
