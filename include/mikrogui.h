@@ -11,10 +11,16 @@
 extern "C" {
 #endif
 
+#include "common.h"
+#include "framebuffer.h"
 #include "image.h"
+#include "input.h"
 #include "rect.h"
+#include "resources.h"
+#include "widget.h"
 
-void mikrogui_init(void);
+void mg_init(void);
+void mg_run(void);
 
 #ifdef __cplusplus
 }

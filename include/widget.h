@@ -35,18 +35,6 @@ typedef struct
     void** children;
 } mg_widget_t;
 
-typedef struct
-{
-    mg_widget_t widget;
-    mg_pixel_t color;
-} mg_rect_t;
-
-typedef struct
-{
-    mg_widget_t widget;
-    mg_string_t str;
-} mg_text_t;
-
 /*typedef struct 
 {
     mg_widget_t base;
@@ -73,4 +61,3 @@ void mg_widget_switch_form(mg_form_t* new_form);
 #endif
 
 #endif // MIKROGUI_WIDGET_H
-

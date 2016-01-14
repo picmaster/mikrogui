@@ -5,23 +5,30 @@
  */
 
 #include "mikrogui.h"
+#include "widget.h"
+#include "framebuffer.h"
 
 // FIXME: Fix these externs
-extern int mikrogui_platform_init(void);
-extern void mikrogui_platform_run(void);
+extern int mg_platform_init(void);
+extern void mg_platform_run(void);
 
-void mikrogui_init(void)
+// FIXME: Remove this extern
+extern mg_fb_t fb;
+
+void mg_init(void)
 {
-    mikrogui_platform_init();
-    // Init menu system
+    mg_platform_init();
+    mg_framebuffer_clear();
+    mg_framebuffer_flush();
 }
 
-void mikrogui_run(void)
+void mg_run(void)
 {
-    mikrogui_platform_run();
+    mg_platform_run();
 }
 
-int main(int argc, char** argv)
+// Example user application
+/*int main(int argc, char** argv)
 {
     mikrogui_init();
     mikrogui_run();
