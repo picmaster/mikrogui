@@ -61,3 +61,4 @@ void mg_widget_switch_form(mg_form_t* new_form);
 #endif
 
 #endif // MIKROGUI_WIDGET_H
+

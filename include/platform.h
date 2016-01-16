@@ -11,6 +11,11 @@
 extern "C" {
 #endif
 
+#include "framebuffer.h"
+#include "framebuffer_gen.h"
+
+extern void mg_platform_init(const uint16_t disp_w, const uint16_t disp_h);
+extern void mg_platform_run(void);
 extern void mg_platform_fb_flush(mg_fb_t* fb);
 
 #ifdef __cplusplus

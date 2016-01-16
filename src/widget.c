@@ -76,3 +76,4 @@ void mg_widget_switch_form(mg_form_t* new_form)
 
     mg_widget_draw((mg_widget_t*)current_form);
 }
+

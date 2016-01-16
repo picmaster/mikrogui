@@ -11,7 +11,7 @@ extern "C" {
 typedef struct
 {
     mg_widget_t widget;
-    mg_string_t str;
+    mg_string_t string;
     mg_font_t font;
 } mg_text_t;
 
@@ -22,3 +22,4 @@ void mg_text_draw(const mg_text_t* text);
 #endif
 
 #endif // MIKROGUI_TEXT_H
+

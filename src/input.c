@@ -17,3 +17,4 @@ void mg_input_event(mg_event_t e)
     if (form)
         form->handle_input(e);
 }
+

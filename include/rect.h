@@ -26,3 +26,4 @@ void mg_rect_draw(const mg_rect_t* rect);
 #endif
 
 #endif // MIKROGUI_RECT_H
+

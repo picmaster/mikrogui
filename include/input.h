@@ -57,3 +57,4 @@ void mg_input_event(mg_event_t e);
 #endif
 
 #endif // MIKROGUI_INPUT_H
+
