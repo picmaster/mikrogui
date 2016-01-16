@@ -15,32 +15,12 @@ static uint32_t frames = 0;
 
 const int zoom_min = 1;
 const int zoom_max = 4;
-int zoom = 1;
+static int zoom = 1, width, height;
 
-const int width = 64, height = 128;
+// FIXME: Invent better way to access the framebuffer
+extern mg_fb_t fb;
 
-// Return 0 on success, any other value on error
-int mikrogui_platform_init(void)
-{
-    if (SDL_Init(SDL_INIT_VIDEO))
-    {
-        printf("SDL_Init failed: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    atexit(SDL_Quit);
-
-    screen = SDL_SetVideoMode(width * zoom, height * zoom, 24, SDL_SWSURFACE);
-    if (!screen)
-    {
-        printf("SDL_SetVideoMode failed: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    return 0;
-}
-
-void handle_zoom_event(int dir)
+static void handle_zoom_event(int dir)
 {
     int zoom_old = zoom;
 
@@ -66,7 +46,7 @@ void handle_zoom_event(int dir)
     }
 }
 
-void handle_events(SDL_KeyboardEvent ke)
+static void handle_events(SDL_KeyboardEvent ke)
 {
     mg_event_t e;
 
@@ -125,9 +105,6 @@ void handle_events(SDL_KeyboardEvent ke)
         mg_input_event(e);
 }
 
-// FIXME: Invent better way to access the framebuffer
-extern mg_fb_t fb;
-
 void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c)
 {
     int bpp = s->format->BytesPerPixel, xx, yy;
@@ -181,7 +158,31 @@ void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c)
     }
 }
 
-void mikrogui_platform_run(void)
+// Return 0 on success, any other value on error
+int mg_platform_init(const uint16_t disp_w, const uint16_t disp_h)
+{
+    width = disp_w;
+    height = disp_h;
+
+    if (SDL_Init(SDL_INIT_VIDEO))
+    {
+        printf("SDL_Init failed: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    atexit(SDL_Quit);
+
+    screen = SDL_SetVideoMode(width * zoom, height * zoom, 24, SDL_SWSURFACE);
+    if (!screen)
+    {
+        printf("SDL_SetVideoMode failed: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    return 0;
+}
+
+void mg_platform_run(void)
 {
     SDL_Event evt;
     int running = 1, x, y;
@@ -228,5 +229,10 @@ void mikrogui_platform_run(void)
     }
 
     SDL_Quit();
+}
+
+void mg_platform_fb_flush(mg_fb_t* fb)
+{
+    // TODO: Properly implement this, instead of using extern access to the fb
 }
 

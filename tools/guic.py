@@ -84,6 +84,8 @@ def gen_framebuffer_code(display_name):
     params = {"disp_conf": "%s.conf" % display_name, "guic_info": guic_info(), "timestamp": timestamp()}
     params["type"] = pixtype
     params["mask"] = pixmask
+    params["width"] = w
+    params["height"] = h
     fill_template("templates/framebuffer/framebuffer_gen.h.tmpl", "include/framebuffer_gen.h", params)
 
 def gen_image_instance(form_name, image):
@@ -246,3 +248,4 @@ def gen_bin_arrays(in_files, out_file_basename = "resources_gen"):
     f.write("    RES_ID_MAX\n")
     f.write("} resource_id_t;\n\n")
     f.close()
+
