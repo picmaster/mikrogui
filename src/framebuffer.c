@@ -5,18 +5,18 @@
  */
 
 #include "framebuffer.h"
-
+#include "platform.h"
 #include <string.h>
 
 extern mg_fb_t fb;
-extern void mg_platform_fb_flush(mg_fb_t* fb);
 
 void mg_framebuffer_clear(void)
 {
     memset(fb.mem, 0, fb.bytes);
 }
 
-void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const mg_pixel_t c)
+void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y,
+    const mg_pixel_t c)
 {
     mg_pixel_t* p = (mg_pixel_t*)fb.mem;
 
@@ -35,11 +35,6 @@ void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y, const mg_pixe
             break;
     }
 }
-
-/*void mg_framebuffer_draw_line(const uint16_t x1, const uint16_t y1,
-    const uint16_t x2, const uint16_t y2, const pixel_t c)
-{
-}*/
 
 void mg_framebuffer_flush(void)
 {

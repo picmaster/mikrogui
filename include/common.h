@@ -21,6 +21,18 @@ typedef struct
     uint16_t h;
 } mg_geometry_t;
 
+typedef enum
+{
+    PIXFMT_INVALID = 0,
+    PIXFMT_1BPP_MONO,
+    PIXFMT_2BPP_MONO,
+    PIXFMT_4BPP_MONO,
+    PIXFMT_8BPP_MONO,
+    PIXFMT_RGB332,
+    PIXFMT_RGB565,
+    PIXFMT_MAX
+} mg_pixel_format_t;
+
 typedef struct
 {
     uint8_t len;
@@ -39,3 +51,4 @@ typedef struct
 #endif
 
 #endif // MIKROGUI_COMMON_H
+
