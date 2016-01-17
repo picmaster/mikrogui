@@ -23,15 +23,16 @@ void mg_rect_draw(const mg_rect_t* rect)
     x_end = x_start + rect->widget.geometry.w;
     y_end = y_start + rect->widget.geometry.h;
 
-    for (x = x_start; x <= x_end; x++)
+    for (x = x_start; x < x_end; x++)
     {
         mg_framebuffer_draw_pixel(x, y_start, rect->color);
-        mg_framebuffer_draw_pixel(x, y_end, rect->color);
+        mg_framebuffer_draw_pixel(x, y_end - 1, rect->color);
     }
 
-    for (y = y_start; y <= y_end; y++)
+    for (y = y_start; y < y_end; y++)
     {
         mg_framebuffer_draw_pixel(x_start, y, rect->color);
-        mg_framebuffer_draw_pixel(x_end, y, rect->color);
+        mg_framebuffer_draw_pixel(x_end - 1, y, rect->color);
     }
 }
+
