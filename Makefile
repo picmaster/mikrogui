@@ -1,16 +1,30 @@
-#APP=framebuffer
-APP=mikrogui
+APP=example
 CC=gcc
-CFLAGS=-O0 -ggdb -Wall -Wstrict-prototypes -I. `pkg-config --cflags sdl`
+CFLAGS=-O0 -ggdb -Wall -Wstrict-prototypes -Iinclude `pkg-config --cflags sdl`
 SLIBS=`pkg-config --libs sdl`
 
-OBJS=framebuffer_gen.o framebuffer.o mikrogui.o platforms/linux/linux_backend.o
+OBJS=\
+ src/framebuffer.o \
+ src/framebuffer_gen.o \
+ src/image.o \
+ src/input.o \
+ src/mikrogui.o \
+ src/platforms/linux_sdl.o \
+ src/rect.o \
+ src/resources.o \
+ src/text.o \
+ src/widget.o
 
-all: $(OBJS)
-	$(CC) -o $(APP) $(OBJS) $(SLIBS)
+all: $(OBJS) examples
+#	$(CC) -o $(APP) $(OBJS) $(SLIBS)
+
+examples: framebuffer
+
+framebuffer:
+	$(CC) -o examples/framebuffer_example $(OBJS) $(SLIBS)
 
 clean:
-	rm -f *.o *_gen.[ch] $(APP)
+	rm -f $(APP) include/*_gen.[ch] src/*.o src/*_gen.[ch] src/platforms/*.o
 
 rebuild: clean all
 
