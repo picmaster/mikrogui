@@ -7,15 +7,50 @@
 #include "image.h"
 #include "framebuffer.h"
 
-// FIXME: Find better way to access the framebuffer
-extern mg_fb_t fb;
+uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap, const uint16_t x,
+    const uint16_t y)
+{
+    uint32_t offset, pixel = 0;
+
+    if ((!pixmap)
+        || (!pixmap->mem)
+        || (pixmap->format <= PIXFMT_INVALID)
+        || (pixmap->format >= PIXFMT_MAX)
+        || (x >= pixmap->w)
+        || (y >= pixmap->h))
+        return 0;
+
+    switch (pixmap->format)
+    {
+        case PIXFMT_4BPP_MONO:
+            offset = pixmap->w * y + x;
+            pixel = ((uint8_t*)pixmap->mem)[offset >> 1];
+
+            // FIXME: LSB/MSB pixel order is implicitly handled here, make sure
+            // we handle it properly via the pixel format
+            if (offset & 0x01)
+                pixel = (pixel >> 4) & 0x0F;
+            else pixel &= 0x0F;
+            break;
+
+        case PIXFMT_8BPP_MONO:
+            offset = pixmap->w * y + x;
+            pixel = ((uint8_t*)pixmap->mem)[offset];
+            break;
+
+        default:
+            break;
+    }
+
+    return pixel;
+}
 
 // TODO: Look for possible performance optimizations
 void mg_image_draw(mg_image_t* img)
 {
     int x, x_end, x_offset;
     int y, y_end, y_offset;
-    mg_pixel_t* p;
+    uint32_t pixel;
 
     if (!img || !img->pixmap.mem)
         return;
@@ -24,14 +59,10 @@ void mg_image_draw(mg_image_t* img)
     x_end = img->widget.geometry.x + img->pixmap.w;
     if (x_end > img->widget.geometry.w)
         x_end = img->widget.geometry.w;
-    if (x_end > fb.width)
-        x_end = fb.width;
 
     y_end = img->widget.geometry.y + img->pixmap.h;
     if (y_end > img->widget.geometry.h)
         y_end = img->widget.geometry.h;
-    if (y_end > fb.height)
-        y_end = fb.height;
 
     x_offset = img->widget.geometry.x;
     y_offset = img->widget.geometry.y;
@@ -40,11 +71,11 @@ void mg_image_draw(mg_image_t* img)
     {
         for (x = x_offset; x < x_end; x++)
         {
-            p = (mg_pixel_t*)img->pixmap.mem + (img->pixmap.w * (y - y_offset)) + (x - x_offset);
+            pixel = mg_pixmap_read_pixel(&img->pixmap, x, y);
 
-            // FIXME: Hardcoded
-            // TODO: Check for pixmap's pixel format and convert properly the pixel
-            mg_framebuffer_draw_pixel(x, y, *p >> 4);
+            // FIXME: Convert properly to the framebuffer's pixel format
+            mg_framebuffer_draw_pixel(x, y, (pixel >> 4) & 0x0F);
         }
     }
 }
+
