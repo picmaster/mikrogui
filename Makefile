@@ -20,8 +20,8 @@ all: $(OBJS) examples
 
 examples: framebuffer
 
-framebuffer:
-	$(CC) -o examples/framebuffer_example $(OBJS) $(SLIBS)
+framebuffer: examples/framebuffer_example.o
+	$(CC) -o examples/framebuffer_example $(OBJS) examples/framebuffer_example.o $(SLIBS)
 
 clean:
 	rm -f $(APP) include/*_gen.[ch] src/*.o src/*_gen.[ch] src/platforms/*.o
