@@ -30,6 +30,8 @@ typedef enum
     PIXFMT_8BPP_MONO,
     PIXFMT_RGB332,
     PIXFMT_RGB565,
+    PIXFMT_RGB666,
+    PIXFMT_RGB888,
     PIXFMT_MAX
 } mg_pixel_format_t;
 
@@ -38,13 +40,6 @@ typedef struct
     uint8_t len;
     uint8_t* str;
 } mg_string_t;
-
-typedef struct
-{
-    void* data;
-    uint8_t char_w;
-    uint8_t char_h;
-} mg_font_t;
 
 #ifdef __cplusplus
 }
