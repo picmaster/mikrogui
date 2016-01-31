@@ -43,6 +43,7 @@ static void draw_fill(const mg_geometry_t* const g, mg_pixel_t color)
 void mg_progressbar_draw(const mg_progressbar_t* const pb)
 {
     uint16_t fill_w;
+    uint16_t value;
     mg_rect_t r = {.widget = {.type = MG_WIDGET_TYPE_RECT}};
     mg_geometry_t g;
 
@@ -53,7 +54,10 @@ void mg_progressbar_draw(const mg_progressbar_t* const pb)
     r.color = pb->border_color;
     mg_rect_draw(&r);
 
-    fill_w = ((pb->widget.geometry.w - 2) * (pb->value - pb->min)) / (pb->max - pb->min);
+    // Clamp value between min/max
+    value = (pb->value > pb->max) ? pb->max : pb->value;
+
+    fill_w = ((pb->widget.geometry.w - 2) * (value - pb->min)) / (pb->max - pb->min);
 
     g.x = pb->widget.geometry.x + 1;
     g.y = pb->widget.geometry.y + 1;
