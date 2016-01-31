@@ -19,7 +19,7 @@ void mg_framebuffer_draw_pixel(uint16_t x, uint16_t y, mg_pixel_t c)
 {
     mg_pixel_t* p = (mg_pixel_t*)fb.mem;
 
-    if (x > fb.width || y > fb.height)
+    if ((x > fb.width) || (y > fb.height))
         return;
 
     switch (fb.pixel_format)
@@ -29,8 +29,16 @@ void mg_framebuffer_draw_pixel(uint16_t x, uint16_t y, mg_pixel_t c)
         case PIXFMT_4BPP_MONO:
         case PIXFMT_8BPP_MONO:
         case PIXFMT_RGB332:
-        default:
             p[fb.width * y + x] = c & MG_PIXEL_MASK;
+            break;
+
+        case PIXFMT_RGB565:
+            break;
+
+        case PIXFMT_RGB666:
+        case PIXFMT_RGB888:
+            break;
+        default:
             break;
     }
 }
