@@ -6,6 +6,7 @@
 
 #include "widget.h"
 #include "image.h"
+#include "progressbar.h"
 #include "rect.h"
 #include "text.h"
 #include "framebuffer.h"
@@ -13,6 +14,13 @@
 
 static mg_form_t* current_form = NULL;
 
+void mg_widget_copy_geometry(mg_widget_t* const dest, mg_widget_t* const src)
+{
+    if ((!dest) || (!src))
+        return;
+
+    dest->geometry = src->geometry;
+}
 // Nest-limiting won't work called from multithreaded code
 void mg_widget_draw(const mg_widget_t* const widget)
 {
@@ -36,17 +44,17 @@ void mg_widget_draw(const mg_widget_t* const widget)
             mg_image_draw((mg_image_t*)widget);
             break;
 
+        case MG_WIDGET_TYPE_PROGRESSBAR:
+            mg_progressbar_draw((mg_progressbar_t*)widget);
+            break;
+
         case MG_WIDGET_TYPE_RECT:
-        {
             mg_rect_draw((mg_rect_t*)widget);
             break;
-        }
 
         case MG_WIDGET_TYPE_TEXT:
-        {
             mg_text_draw((mg_text_t*)widget);
             break;
-        }
 
         default:
             break;

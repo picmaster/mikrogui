@@ -13,7 +13,6 @@ extern "C" {
 
 #include "common.h"
 #include "input.h"
-#include "framebuffer_gen.h" // TODO: Move mg_pixel_t type to another file to avoid this inclusion
 #include <stdint.h>
 
 typedef enum
@@ -22,7 +21,7 @@ typedef enum
     //MG_WIDGET_TYPE_BUTTON,
     MG_WIDGET_TYPE_FORM,
     MG_WIDGET_TYPE_IMAGE,
-    //MG_WIDGET_TYPE_PROGRESSBAR,
+    MG_WIDGET_TYPE_PROGRESSBAR,
     MG_WIDGET_TYPE_RECT,
     MG_WIDGET_TYPE_TEXT,
     MG_WIDGET_TYPE_MAX
@@ -35,14 +34,6 @@ typedef struct
     void** children;
 } mg_widget_t;
 
-/*typedef struct 
-{
-    mg_widget_t base;
-    mg_string_t text;
-    uint8_t font_id;
-} mg_button_t;
-*/
-
 typedef struct
 {
     mg_widget_t widget;
@@ -52,6 +43,7 @@ typedef struct
     void (*handle_input)(mg_event_t e);
 } mg_form_t;
 
+void mg_widget_copy_geometry(mg_widget_t* const dest, mg_widget_t* const src);
 void mg_widget_draw(const mg_widget_t* const widget);
 mg_form_t* mg_widget_get_current_form(void);
 void mg_widget_switch_form(const mg_form_t* const new_form);

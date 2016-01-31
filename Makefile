@@ -10,6 +10,7 @@ OBJS=\
  src/input.o \
  src/mikrogui.o \
  src/platforms/linux_sdl.o \
+ src/progressbar.o \
  src/rect.o \
  src/resources.o \
  src/text.o \

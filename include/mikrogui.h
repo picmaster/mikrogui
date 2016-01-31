@@ -15,6 +15,7 @@ extern "C" {
 #include "framebuffer.h"
 #include "image.h"
 #include "input.h"
+#include "progressbar.h"
 #include "rect.h"
 #include "resources.h"
 #include "text.h"
