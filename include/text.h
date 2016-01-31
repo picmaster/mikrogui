@@ -17,20 +17,20 @@ extern "C" {
 
 typedef struct
 {
-    mg_pixmap_t* pixmap;
-    uint16_t char_w;
-    uint16_t char_h;
+    const mg_pixmap_t* const pixmap;
+    const uint16_t char_w;
+    const uint16_t char_h;
 } mg_font_t;
 
 typedef struct
 {
     mg_widget_t widget;
     mg_string_t string;
-    mg_font_t* font;
+    const mg_font_t* const font;
 } mg_text_t;
 
 // Draw text
-void mg_text_draw(const mg_text_t* text);
+void mg_text_draw(const mg_text_t* const text);
 
 #ifdef __cplusplus
 }

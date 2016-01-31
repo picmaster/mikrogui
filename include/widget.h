@@ -52,9 +52,9 @@ typedef struct
     void (*handle_input)(mg_event_t e);
 } mg_form_t;
 
-void mg_widget_draw(mg_widget_t* widget);
+void mg_widget_draw(const mg_widget_t* const widget);
 mg_form_t* mg_widget_get_current_form(void);
-void mg_widget_switch_form(mg_form_t* new_form);
+void mg_widget_switch_form(const mg_form_t* const new_form);
 
 #ifdef __cplusplus
 }

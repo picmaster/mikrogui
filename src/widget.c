@@ -14,7 +14,7 @@
 static mg_form_t* current_form = NULL;
 
 // Nest-limiting won't work called from multithreaded code
-void mg_widget_draw(mg_widget_t* widget)
+void mg_widget_draw(const mg_widget_t* const widget)
 {
     const int max_nest_level = 4;
     static int nest_level = 0;
@@ -61,7 +61,7 @@ mg_form_t* mg_widget_get_current_form(void)
     return current_form;
 }
 
-void mg_widget_switch_form(mg_form_t* new_form)
+void mg_widget_switch_form(const mg_form_t* const new_form)
 {
     if (!new_form)
         return;
@@ -69,7 +69,7 @@ void mg_widget_switch_form(mg_form_t* new_form)
     if (current_form && current_form->leave)
         current_form->leave();
 
-    current_form = new_form;
+    current_form = (mg_form_t*)new_form;
 
     if (current_form->enter)
         current_form->enter();

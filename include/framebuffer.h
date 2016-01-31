@@ -29,8 +29,7 @@ typedef struct
 void mg_framebuffer_clear(void);
 
 // Draw single pixel
-void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y,
-    const mg_pixel_t c);
+void mg_framebuffer_draw_pixel(uint16_t x, uint16_t y, mg_pixel_t c);
 
 // Write the framebuffer to the platform display
 void mg_framebuffer_flush(void);

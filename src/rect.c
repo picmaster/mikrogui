@@ -10,7 +10,7 @@
 // FIXME: Find better way to access the framebuffer
 extern mg_fb_t fb;
 
-void mg_rect_draw(const mg_rect_t* rect)
+void mg_rect_draw(const mg_rect_t* const rect)
 {
     int x, x_start, x_end;
     int y, y_start, y_end;

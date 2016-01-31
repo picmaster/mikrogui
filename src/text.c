@@ -8,7 +8,7 @@
 #include "framebuffer.h"
 
 // Draw a single character with specified font
-static void draw_char(mg_font_t* font, uint8_t c, uint16_t dst_x, uint16_t dst_y)
+static void draw_char(const mg_font_t* const font, uint8_t c, uint16_t dst_x, uint16_t dst_y)
 {
     int src_x = 0, src_y = 0, x, y;
     uint8_t color;
@@ -33,7 +33,7 @@ static void draw_char(mg_font_t* font, uint8_t c, uint16_t dst_x, uint16_t dst_y
     }
 }
 
-void mg_text_draw(const mg_text_t* text)
+void mg_text_draw(const mg_text_t* const text)
 {
     int i;
 

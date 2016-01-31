@@ -15,8 +15,7 @@ void mg_framebuffer_clear(void)
     memset(fb.mem, 0, fb.bytes);
 }
 
-void mg_framebuffer_draw_pixel(const uint16_t x, const uint16_t y,
-    const mg_pixel_t c)
+void mg_framebuffer_draw_pixel(uint16_t x, uint16_t y, mg_pixel_t c)
 {
     mg_pixel_t* p = (mg_pixel_t*)fb.mem;
 

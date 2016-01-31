@@ -18,24 +18,24 @@ extern "C" {
 
 typedef struct
 {
-    void* mem;
-    uint16_t w;
-    uint16_t h;
-    mg_pixel_format_t format;
+    const void* const mem;
+    const uint16_t w;
+    const uint16_t h;
+    const mg_pixel_format_t format;
 } mg_pixmap_t;
 
 typedef struct
 {
     mg_widget_t widget;
-    mg_pixmap_t pixmap;
+    const mg_pixmap_t* const pixmap;
 } mg_image_t;
 
 // Draw an image on the framebuffer
-void mg_image_draw(mg_image_t* img);
+void mg_image_draw(const mg_image_t* const img);
 
 // Read a single pixel from a pixmap
 uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap,
-    const uint16_t x, const uint16_t y);
+    uint16_t x, uint16_t y);
 
 #ifdef __cplusplus
 }

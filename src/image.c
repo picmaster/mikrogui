@@ -7,8 +7,8 @@
 #include "image.h"
 #include "framebuffer.h"
 
-uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap, const uint16_t x,
-    const uint16_t y)
+uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap, uint16_t x,
+    uint16_t y)
 {
     uint32_t offset, pixel = 0;
 
@@ -46,7 +46,7 @@ uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap, const uint16_t x,
 }
 
 // TODO: Look for possible performance optimizations
-void mg_image_draw(mg_image_t* img)
+void mg_image_draw(const mg_image_t* const img)
 {
     int x, x_end, x_offset;
     int y, y_end, y_offset;
