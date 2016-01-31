@@ -7,7 +7,6 @@
 #include "rect.h"
 #include "framebuffer.h"
 
-
 void mg_rect_draw(const mg_rect_t* const rect)
 {
     int x, x_start, x_end;

@@ -29,6 +29,7 @@ rect: examples/rect_example.o
 
 progressbar: examples/progressbar_example.o
 	$(CC) -o examples/progressbar_example $(OBJS) examples/progressbar_example.o $(SLIBS)
+
 clean:
 	rm -f $(APP) include/*_gen.[ch] src/*.o src/*_gen.[ch] src/platforms/*.o
 	rm -f examples/*_example

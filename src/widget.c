@@ -21,6 +21,7 @@ void mg_widget_copy_geometry(mg_widget_t* const dest, mg_widget_t* const src)
 
     dest->geometry = src->geometry;
 }
+
 // Nest-limiting won't work called from multithreaded code
 void mg_widget_draw(const mg_widget_t* const widget)
 {

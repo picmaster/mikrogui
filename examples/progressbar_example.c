@@ -26,6 +26,7 @@ int main(int argc, char** argv)
         .min = 0,
         .max = 100,
         .value = 50,
+
         .border_color = 0xFF,
         .fg_color = 0xFF,
         .bg_color = 0x80,

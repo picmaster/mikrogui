@@ -38,6 +38,7 @@ void mg_framebuffer_draw_pixel(uint16_t x, uint16_t y, mg_pixel_t c)
         case PIXFMT_RGB666:
         case PIXFMT_RGB888:
             break;
+
         default:
             break;
     }
