@@ -6,6 +6,28 @@
 
 #include "image.h"
 #include "framebuffer.h"
+#include <stdbool.h>
+
+static bool mg_image_is_valid(const mg_image_t* const img)
+{
+    if ((!img)
+        || (MG_WIDGET_TYPE_IMAGE != img->widget.type)
+        || (!img->pixmap))
+        return false;
+
+    return true;
+}
+
+static bool mg_pixmap_is_valid(const mg_pixmap_t* const pixmap)
+{
+    if ((!pixmap)
+        || (!pixmap->mem)
+        || (pixmap->format <= PIXFMT_INVALID)
+        || (pixmap->format >= PIXFMT_MAX))
+        return false;
+
+    return true;
+}
 
 uint32_t mg_pixmap_read_pixel(const mg_pixmap_t* const pixmap, uint16_t x,
     uint16_t y)
@@ -52,7 +74,8 @@ void mg_image_draw(const mg_image_t* const img)
     int y, y_end, y_offset;
     uint32_t pixel;
 
-    if ((!img) || (!img->pixmap->mem))
+    if ((!mg_image_is_valid(img))
+        || (!mg_pixmap_is_valid(img->pixmap)))
         return;
 
     // Clip the pixmap outside the widget

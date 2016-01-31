@@ -7,6 +7,18 @@
 #include "progressbar.h"
 #include "rect.h"
 #include "framebuffer.h"
+#include <stdbool.h>
+
+static bool mg_progressbar_is_valid(const mg_progressbar_t* const pb)
+{
+    if ((!pb)
+        || (MG_WIDGET_TYPE_PROGRESSBAR != pb->widget.type)
+        || (pb->widget.geometry.w < 3)
+        || (pb->widget.geometry.h < 3))
+        return false;
+
+    return true;
+}
 
 static void draw_fill(const mg_geometry_t* const g, mg_pixel_t color)
 {
@@ -34,9 +46,7 @@ void mg_progressbar_draw(const mg_progressbar_t* const pb)
     mg_rect_t r = {.widget = {.type = MG_WIDGET_TYPE_RECT}};
     mg_geometry_t g;
 
-    if ((!pb)
-        || (pb->widget.geometry.w < 3)
-        || (pb->widget.geometry.h < 3))
+    if (!mg_progressbar_is_valid(pb))
         return;
 
     mg_widget_copy_geometry((mg_widget_t*)&r, (mg_widget_t*)pb);
