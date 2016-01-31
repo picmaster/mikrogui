@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "widget.h"
+#include "framebuffer_gen.h"
 
 typedef struct
 {
@@ -19,7 +20,7 @@ typedef struct
     mg_pixel_t color;
 } mg_rect_t;
 
-void mg_rect_draw(const mg_rect_t* rect);
+void mg_rect_draw(const mg_rect_t* const rect);
 
 #ifdef __cplusplus
 }

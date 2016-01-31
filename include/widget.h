@@ -27,12 +27,14 @@ typedef enum
     MG_WIDGET_TYPE_MAX
 } mg_widget_type_t;
 
-typedef struct
+typedef struct mg_widget_s mg_widget_t;
+
+struct mg_widget_s
 {
     uint8_t type;
     mg_geometry_t geometry;
-    void** children;
-} mg_widget_t;
+    mg_widget_t** children;
+};
 
 typedef struct
 {

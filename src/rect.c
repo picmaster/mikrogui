@@ -7,15 +7,14 @@
 #include "rect.h"
 #include "framebuffer.h"
 
-// FIXME: Find better way to access the framebuffer
-extern mg_fb_t fb;
 
 void mg_rect_draw(const mg_rect_t* const rect)
 {
     int x, x_start, x_end;
     int y, y_start, y_end;
 
-    if (!rect)
+    if ((!rect)
+        || (MG_WIDGET_TYPE_RECT != rect->widget.type))
         return;
 
     x_start = rect->widget.geometry.x;

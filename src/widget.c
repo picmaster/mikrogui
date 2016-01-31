@@ -36,7 +36,7 @@ void mg_widget_draw(const mg_widget_t* const widget)
     switch (widget->type)
     {
         case MG_WIDGET_TYPE_FORM:
-            for (child = (mg_widget_t**)widget->children; *child; child++)
+            for (child = widget->children; *child; child++)
                 mg_widget_draw(*child);
             break;
 

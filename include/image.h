@@ -13,7 +13,6 @@ extern "C" {
 
 #include "common.h"
 #include "widget.h"
-//#include "framebuffer.h"
 #include <stdint.h>
 
 typedef struct

@@ -52,15 +52,15 @@ void mg_image_draw(const mg_image_t* const img)
     int y, y_end, y_offset;
     uint32_t pixel;
 
-    if (!img || !img->pixmap.mem)
+    if ((!img) || (!img->pixmap->mem))
         return;
 
-    // Clip the pixmap outside the widget & screen
-    x_end = img->widget.geometry.x + img->pixmap.w;
+    // Clip the pixmap outside the widget
+    x_end = img->widget.geometry.x + img->pixmap->w;
     if (x_end > img->widget.geometry.w)
         x_end = img->widget.geometry.w;
 
-    y_end = img->widget.geometry.y + img->pixmap.h;
+    y_end = img->widget.geometry.y + img->pixmap->h;
     if (y_end > img->widget.geometry.h)
         y_end = img->widget.geometry.h;
 
