@@ -6,6 +6,7 @@
 
 #include "framebuffer.h"
 #include "input.h"
+#include "platform.h"
 #include "SDL.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -17,8 +18,7 @@ const int zoom_min = 1;
 const int zoom_max = 4;
 static int zoom = 1, width, height;
 
-// FIXME: Invent better way to access the framebuffer
-extern mg_fb_t fb;
+static mg_fb_t* vfb = NULL;
 
 static void handle_zoom_event(int dir)
 {
@@ -105,20 +105,21 @@ static void handle_events(SDL_KeyboardEvent ke)
         mg_input_event(e);
 }
 
-void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c)
+void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c,
+    mg_pixel_format_t pixfmt)
 {
     int bpp = s->format->BytesPerPixel, xx, yy;
     Uint8* p;
     Uint32 c32 = 0;
 
-    switch (fb.pixel_format)
+    switch (pixfmt)
     {
         case PIXFMT_1BPP_MONO:
-            c32 = c ? 0xFFFFFF : 0;
+            c32 = (c & 0x1) ? 0xFFFFFF : 0;
             break;
 
         case PIXFMT_2BPP_MONO:
-            c32 = (c << 22) | (c << 14) | (c << 6);
+            c32 = ((c & 0x3) << 22) | ((c & 0x3) << 14) | ((c & 0x3) << 6);
             break;
 
         case PIXFMT_4BPP_MONO:
@@ -127,6 +128,22 @@ void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c)
 
         case PIXFMT_8BPP_MONO:
             c32 = (c << 16) | (c << 8) | c;
+            break;
+
+        case PIXFMT_RGB332:
+            c32 = ((c & 0xE) << 16) | ((c & 0x1C) << 11) | ((c & 0x3) << 6);
+            break;
+
+        case PIXFMT_RGB565:
+            c32 = ((c & 0xF800) << 8) | ((c & 0x7E0) << 5) | ((c & 0x1F) << 3);
+            break;
+
+        case PIXFMT_RGB666:
+            c32 = ((c & 0x3F000) << 6) | ((c & 0xFC0) << 4) | ((c & 0x3F) << 2);
+            break;
+
+        case PIXFMT_RGB888:
+            c32 = c & 0xFFFFFF;
             break;
 
         default:
@@ -185,7 +202,8 @@ int mg_platform_init(const uint16_t disp_w, const uint16_t disp_h)
 void mg_platform_run(void)
 {
     SDL_Event evt;
-    int running = 1, x, y;
+    int running = 1;
+    //int x, y;
     char s[64];
 
     while (running)
@@ -212,17 +230,7 @@ void mg_platform_run(void)
             }
         }
 
-        // Update the screen
-        SDL_LockSurface(screen);
-        for (y = 0; y < fb.height; y++)
-        {
-            for (x = 0; x < fb.width; x++)
-            {
-                draw_pixel(screen, x, y, ((uint8_t*)fb.mem)[fb.width * y + x]);
-            }
-        }
-        SDL_UnlockSurface(screen);
-        SDL_UpdateRect(screen, 0, 0, width * zoom, height * zoom);
+        mg_platform_fb_flush(vfb);
 
         SDL_Delay(50);
         frames++;
@@ -231,8 +239,27 @@ void mg_platform_run(void)
     SDL_Quit();
 }
 
+// Update the screen
 void mg_platform_fb_flush(mg_fb_t* fb)
 {
-    // TODO: Properly implement this, instead of using extern access to the fb
+    int x, y;
+    uint8_t* p;
+
+    if (!fb)
+        return;
+
+    vfb = fb;
+
+    SDL_LockSurface(screen);
+    for (y = 0; y < vfb->height; y++)
+    {
+        for (x = 0; x < vfb->width; x++)
+        {
+            p = ((uint8_t*)vfb->mem) + vfb->width * y + x;
+            draw_pixel(screen, x, y, *p, vfb->pixel_format);
+        }
+    }
+    SDL_UnlockSurface(screen);
+    SDL_UpdateRect(screen, 0, 0, width * zoom, height * zoom);
 }
 

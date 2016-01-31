@@ -8,8 +8,8 @@
 
 void mg_init(void)
 {
-    mg_platform_init(MG_DISP_WIDTH, MG_DISP_HEIGHT);
     mg_framebuffer_clear();
+    mg_platform_init(MG_DISP_WIDTH, MG_DISP_HEIGHT);
     mg_framebuffer_flush();
 }
 
