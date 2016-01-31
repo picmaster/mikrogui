@@ -19,8 +19,8 @@ A small graphics library for embedded systems (mostly Cortex-M devices).
 
 ## Dependencies
 
-- mikrogui requires a C99-capable compiler (which unfortunately excludes Keil
-  MDK-ARM). So far I've tested with gcc-4.7.2 on Linux.
+- C99-capable compiler (gcc, Keil MDK-ARM, IAR Embedded Workbench). So far I've
+  tested with gcc-4.7.2 on Linux. (TODO: Add IAR & Keil versions)
 - Python 2.7. I've tested the code generation on Linux and Windows 7.
 
 ## How to compile
