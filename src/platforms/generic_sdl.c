@@ -18,8 +18,6 @@ const int zoom_min = 1;
 const int zoom_max = 4;
 static int zoom = 1, width, height;
 
-static mg_fb_t* vfb = NULL;
-
 static void handle_zoom_event(int dir)
 {
     int zoom_old = zoom;
@@ -105,14 +103,13 @@ static void handle_events(SDL_KeyboardEvent ke)
         mg_input_event(e);
 }
 
-void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c,
-    mg_pixel_format_t pixfmt)
+void draw_pixel(SDL_Surface* s, int x, int y, mg_pixel_t c, mg_fb_t* fb)
 {
     int bpp = s->format->BytesPerPixel, xx, yy;
     Uint8* p;
     Uint32 c32 = 0;
 
-    switch (pixfmt)
+    switch (fb->pixel_format)
     {
         case PIXFMT_1BPP_MONO:
             c32 = (c & 0x1) ? 0xFFFFFF : 0;
@@ -201,69 +198,34 @@ int mg_platform_init(const uint16_t disp_w, const uint16_t disp_h)
 
 void mg_platform_run(void)
 {
-    SDL_Event evt;
-    int running = 1;
-    //int x, y;
-    char s[64];
-
-    while (running)
-    {
-        snprintf(s, sizeof(s), "%dx%d, %dx, frames: %d", width, height, zoom, frames);
-        SDL_WM_SetCaption(s, NULL);
-
-        // Handle pending events
-        if (SDL_PollEvent(&evt))
-        {
-            switch (evt.type)
-            {
-                case SDL_KEYDOWN:
-                case SDL_KEYUP:
-                    if (SDLK_ESCAPE == evt.key.keysym.sym)
-                        running = 0;
-
-                    handle_events(evt.key);
-                    break;
-
-                case SDL_QUIT:
-                    running = 0;
-                    break;
-            }
-        }
-
-        mg_platform_fb_flush(vfb);
-
-        SDL_Delay(50);
-        frames++;
-    }
-
-    SDL_Quit();
 }
 
-// Update the screen
 void mg_platform_fb_flush(mg_fb_t* fb)
 {
     int x, y;
-    uint8_t* p;
+    char s[64];
 
     if (!fb)
         return;
 
-    vfb = fb;
+    snprintf(s, sizeof(s), "%dx%d, %dx, frames: %d", width, height, zoom, frames);
+    SDL_WM_SetCaption(s, NULL);
 
     SDL_LockSurface(screen);
-    for (y = 0; y < vfb->height; y++)
+    for (y = 0; y < fb->height; y++)
     {
-        for (x = 0; x < vfb->width; x++)
+        for (x = 0; x < fb->width; x++)
         {
-            p = ((uint8_t*)vfb->mem) + vfb->width * y + x;
-            draw_pixel(screen, x, y, *p, vfb->pixel_format);
+            draw_pixel(screen, x, y, ((uint8_t*)fb->mem)[fb->width * y + x], fb);
         }
     }
     SDL_UnlockSurface(screen);
     SDL_UpdateRect(screen, 0, 0, width * zoom, height * zoom);
+
+    frames++;
 }
 
-void mg_platform_input_poll()
+void mg_platform_input_poll(void)
 {
     SDL_Event evt;
 
