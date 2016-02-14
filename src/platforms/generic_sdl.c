@@ -6,10 +6,8 @@
 
 #include "framebuffer.h"
 #include "input.h"
-#include "platform.h"
 #include "SDL.h"
 #include <stdio.h>
-#include <unistd.h>
 
 static SDL_Surface* screen = NULL;
 static uint32_t frames = 0;
