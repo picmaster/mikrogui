@@ -263,3 +263,26 @@ void mg_platform_fb_flush(mg_fb_t* fb)
     SDL_UpdateRect(screen, 0, 0, width * zoom, height * zoom);
 }
 
+void mg_platform_input_poll()
+{
+    SDL_Event evt;
+
+    // Handle pending events
+    if (SDL_PollEvent(&evt))
+    {
+        switch (evt.type)
+        {
+            case SDL_KEYDOWN:
+            case SDL_KEYUP:
+                /*if (SDLK_ESCAPE == evt.key.keysym.sym)
+                    running = 0;*/
+
+                handle_events(evt.key);
+                break;
+
+            case SDL_QUIT:
+                //running = 0;
+                break;
+        }
+    }
+}
