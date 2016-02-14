@@ -32,6 +32,14 @@ tools/guic.py 320x240_8bpp
 make
 ```
 
+## How to use
+
+- Create a display configuration (configs/display/mydisplay.conf)
+- Create GUI forms (forms/*.form)
+- Invoke code generator to generate C-code:
+
+tools/guic.py mydisplay form1
+
 ## Code generator
 
 The code generator (tools/guic.py) is used to convert formal specifications to
