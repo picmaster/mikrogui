@@ -6,7 +6,14 @@
 
 #include "input.h"
 #include "widget.h"
+#include "platform.h"
 #include <stdio.h>
+
+// Poll events from the platform
+void mg_input_poll(void)
+{
+    mg_platform_input_poll();
+}
 
 // Deliver events to mikrogui
 void mg_input_event(mg_event_t e)

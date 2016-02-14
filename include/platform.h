@@ -17,6 +17,7 @@ extern "C" {
 extern int mg_platform_init(uint16_t disp_w, uint16_t disp_h);
 extern void mg_platform_run(void);
 extern void mg_platform_fb_flush(mg_fb_t* fb);
+extern void mg_platform_input_poll(void);
 
 #ifdef __cplusplus
 }

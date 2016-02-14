@@ -50,6 +50,7 @@ typedef struct
     } data;
 } mg_event_t;
 
+void mg_input_poll(void);
 void mg_input_event(mg_event_t e);
 
 #ifdef __cplusplus
